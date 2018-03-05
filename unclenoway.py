@@ -19,7 +19,7 @@ def req(number):
     url = 'http://118.190.174.130:3101/lostFound/{}'.format(str(20*number))
     headers = {
         'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13E238 Safari/601.1', 'Content-Type': 'application/x-www-form-urlencoded'}
-    print '[*] payload sending ...'
+    print '[*] payload sending ...{}'.format(str(20*number))
     r = s.get(url, headers=headers)
     
     data = json.loads(r.text)
