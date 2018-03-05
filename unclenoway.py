@@ -83,12 +83,16 @@ CREATE TABLE IF NOT EXISTS lostFound (
 #     conn.close()
 #     return answer
 
+def _decode_utf8(aStr):
+    return aStr.encode('utf-8','ignore').decode('utf-8')
 
 def insert(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status):
     conn = sqlite3.connect('data.db')
-    sql = "INSERT INTO `lostFound`(`_id`, `postNumber`, `lostDate`, `wechat`,`title`,`article`,`question`,`posterId`,`likes`,`postDate`,`isFound`,`status`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');"
+    #sql = "INSERT INTO `lostFound`(`_id`, `postNumber`, `lostDate`, `wechat`,`title`,`article`,`question`,`posterId`,`likes`,`postDate`,`isFound`,`status`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');"
+    sql = "INSERT INTO `lostFound`(`_id`, `postNumber`, `lostDate`, `wechat`,`title`,`article`,`question`,`posterId`,`likes`,`postDate`,`isFound`,`status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
     c = conn.cursor()
-    r = c.execute(sql.format(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status))
+    insert_data = map(_decode_utf8,(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status))
+    r = c.execute(sql,insert_data)
     conn.commit()
     conn.close()
 
