@@ -27,18 +27,18 @@ def req(number):
         init_db()
 
     for n in data:
-        _id = n['_id']
-        postNumber = n['postNumber']
-        lostDate = n['lostDate']
-        wechat = n['wechat']
-        title = n['title']
-        article = n['article']
-        question = n['question']
-        posterId = n['posterId']
-        likes = n['likes']
-        postDate = n['postDate']
-        isFound = n['isFound']
-        status = n['status']
+        _id = n["_id"]
+        postNumber = n["postNumber"]
+        lostDate = n["lostDate"]
+        wechat = n["wechat"]
+        title = n["title"]
+        article = n["article"]
+        question = n["question"]
+        posterId = n["posterId"]
+        likes = n["likes"]
+        postDate = n["postDate"]
+        isFound = n["isFound"]
+        status = n["status"]
 
         # if 
         insert(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status)
