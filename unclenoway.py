@@ -27,22 +27,29 @@ def req(number):
         init_db()
 
     for n in data:
-        _id = n["_id"]
-        postNumber = n["postNumber"]
+        _id = n["_id"] 
+        postNumber = n["postNumber"] #int
         lostDate = n["lostDate"]
-        wechat = n["wechat"]
-        title = n["title"]
-        article = n["article"]
-        question = n["question"]
+        wechat = n["wechat"]  #custom-defined
+        title = n["title"] #custom-defined
+        article = n["article"] #custom-defined
+        question = n["question"] #custom-defined
         posterId = n["posterId"]
-        likes = n["likes"]
-        postDate = n["postDate"]
-        isFound = n["isFound"]
-        status = n["status"]
+        likes = n["likes"] #int
+        postDate = n["postDate"] #int
+        isFound = n["isFound"] 
+        status = n["status"] #int
 
-        # if 
-        insert(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status)
+        
+        # insert_data = map(clear_dirtystr,(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status))
+        insert(_id, postNumber, lostDate, clear_dirtystr(wechat),clear_dirtystr(title),clear_dirtystr(article),clear_dirtystr(question),posterId,likes,postDate,isFound,status)
         print 'insert ok, postnumber:{} '.format(postNumber)
+
+        print type(postNumber)
+
+        if postNumber == 1:
+            print '[*] finish!'
+            sys.exit(1)
 
 
 def init_db():
@@ -71,30 +78,36 @@ CREATE TABLE IF NOT EXISTS lostFound (
     cursor.execute(SQL_INIT1)
     cursor.execute(SQL_INIT2)
     cursor.execute(SQL_INIT3)
-    print "database init success"
+    print "[*]database init success"
     cursor.close()
     conn.commit()
     conn.close()
 
 # def search(question):
-#     conn = sqlite3.connect('data.db')
+#     conn = sqlite3.connect(db)
 #     sql = "select * from questions where quiz LIKE '{}'"
 #     answer = conn.execute(sql.format(question)).fetchall()[-1][-1]
 #     conn.close()
 #     return answer
 
+def clear_dirtystr(str):
+    return str.replace("'","")
 
 def insert(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status):
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect(db)
     sql = "INSERT INTO `lostFound`(`_id`, `postNumber`, `lostDate`, `wechat`,`title`,`article`,`question`,`posterId`,`likes`,`postDate`,`isFound`,`status`) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');"
     c = conn.cursor()
-    r = c.execute(sql.format(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status))
+    try:
+        r = c.execute(sql.format(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status))
+    except sqlite3.IntegrityError as e:
+        print e
+        sys.exit(-1)
     conn.commit()
     conn.close()
 
 
 def update(question, answer_no):
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect(db)
     sql = "select `options` from `questions` where `quiz` = '{}'"
     c = conn.cursor()
     options = c.execute(sql.format(question)).fetchall()[-1][-1]
@@ -106,5 +119,5 @@ def update(question, answer_no):
 
 
 if __name__ == '__main__':
-    for x in xrange(1967):#39340/88467
+    for x in xrange(1,1986):#39340/88467 380bug
         req(x)
