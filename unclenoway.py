@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS lostFound (
     SQL_INIT3 = '''PRAGMA foreign_keys = TRUE;'''
     
     cursor.execute(SQL_INIT1)
-    cursor.execute(SQL_INIT2)
+    cursor.execute(SQL_INIT2)#77648 dunpliate orz
     cursor.execute(SQL_INIT3)
     print "[*]database init success"
     cursor.close()
@@ -97,9 +97,12 @@ def insert(_id, postNumber, lostDate, wechat,title,article,question,posterId,lik
     c = conn.cursor()
     try:
         r = c.execute(sql.format(_id, postNumber, lostDate, wechat,title,article,question,posterId,likes,postDate,isFound,status))
-    except sqlite3.IntegrityError as e:
-        print e
+    except sqlite3.IntegrityError as e: #dunplicate id
+        # print e
+        print '[!]dunplicate _id , data exists'
+        print '[!]data has fresh! program exit...'
         sys.exit(-1)
+
     conn.commit()
     conn.close()
 
