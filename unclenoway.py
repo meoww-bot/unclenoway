@@ -45,8 +45,6 @@ def req(number):
         insert(_id, postNumber, lostDate, clear_dirtystr(wechat),clear_dirtystr(title),clear_dirtystr(article),clear_dirtystr(question),posterId,likes,postDate,isFound,status)
         print 'insert ok, postnumber:{} '.format(postNumber)
 
-        print type(postNumber)
-
         if postNumber == 1:
             print '[*] finish!'
             sys.exit(1)
@@ -119,5 +117,5 @@ def update(question, answer_no):
 
 
 if __name__ == '__main__':
-    for x in xrange(1,1986):#39340/88467 380bug
+    for x in xrange(1,2500):
         req(x)
