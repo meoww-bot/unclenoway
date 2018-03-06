@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS lostFound (
     postDate VARCHAR(2000) NOT NULL,
     isFound VARCHAR(2000) NOT NULL,
     status VARCHAR(2000) NOT NULL,
-	PRIMARY KEY (postNumber)
+	PRIMARY KEY (_id)
 );'''
     SQL_INIT3 = '''PRAGMA foreign_keys = TRUE;'''
     
@@ -117,5 +117,5 @@ def update(question, answer_no):
 
 
 if __name__ == '__main__':
-    for x in xrange(1,2500):
+    for x in xrange(0,2500):
         req(x)
